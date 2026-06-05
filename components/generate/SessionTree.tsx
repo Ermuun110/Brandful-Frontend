@@ -1,0 +1,212 @@
+"use client";
+
+import { useState, useRef, useEffect } from "react";
+import { ChevronRight, GitBranch, Plus, Layers, Pencil } from "lucide-react";
+import { SessionData } from "@/app/generate/types";
+
+interface SessionTreeProps {
+  sessions: SessionData[];
+  activeId: string;
+  newlyForkedId: string | null;
+  onSelect: (id: string) => void;
+  onNewSession: () => void;
+  onRename: (id: string, name: string) => void;
+}
+
+function getChildren(sessions: SessionData[], parentId: string): SessionData[] {
+  return sessions.filter((s) => s.parentSessionId === parentId);
+}
+
+function getRoots(sessions: SessionData[]): SessionData[] {
+  return sessions.filter((s) => s.parentSessionId === null);
+}
+
+function getAllDescendants(sessions: SessionData[], rootId: string): SessionData[] {
+  const result: SessionData[] = [];
+  const queue = getChildren(sessions, rootId);
+  while (queue.length) {
+    const next = queue.shift()!;
+    result.push(next);
+    queue.push(...getChildren(sessions, next.id));
+  }
+  return result;
+}
+
+function ForkRow({
+  session,
+  depth,
+  isActive,
+  isNew,
+  onSelect,
+}: {
+  session: SessionData;
+  depth: number;
+  isActive: boolean;
+  isNew: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      onClick={onSelect}
+      className={`w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-left transition-all cursor-pointer group ${isNew ? "tab-new" : ""} ${
+        isActive
+          ? "bg-violet-500/[0.12] text-zinc-100"
+          : "text-zinc-500 hover:text-zinc-300 hover:bg-white/[0.04]"
+      }`}
+      style={{ paddingLeft: `${8 + depth * 16}px` }}
+    >
+      <div className="flex items-center gap-1.5 shrink-0">
+        {Array.from({ length: Math.min(depth, 2) }).map((_, i) => (
+          <GitBranch
+            key={i}
+            className={`w-3 h-3 shrink-0 ${
+              isActive
+                ? depth >= 2 ? "text-violet-300" : "text-violet-400"
+                : "text-zinc-600 group-hover:text-violet-500"
+            }`}
+            style={i > 0 ? { marginLeft: "-6px" } : undefined}
+          />
+        ))}
+      </div>
+      <span className="text-xs font-medium truncate">{session.name}</span>
+      {session.results.length > 0 && (
+        <span className="ml-auto text-[10px] text-zinc-600 shrink-0 tabular-nums">
+          {session.results.length}
+        </span>
+      )}
+    </button>
+  );
+}
+
+export function SessionTree({ sessions, activeId, newlyForkedId, onSelect, onNewSession, onRename }: SessionTreeProps) {
+  const roots = getRoots(sessions);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>(() => {
+    const map: Record<string, boolean> = {};
+    for (const r of roots) map[r.id] = true;
+    return map;
+  });
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editValue, setEditValue] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (editingId) inputRef.current?.select();
+  }, [editingId]);
+
+  const startEdit = (id: string, currentName: string) => {
+    setEditingId(id);
+    setEditValue(currentName);
+  };
+
+  const commitEdit = () => {
+    if (editingId) {
+      const trimmed = editValue.trim();
+      if (trimmed) onRename(editingId, trimmed);
+    }
+    setEditingId(null);
+  };
+
+  const cancelEdit = () => setEditingId(null);
+
+  const toggle = (id: string) =>
+    setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
+
+  return (
+    <div className="flex flex-col gap-0.5">
+      {/* Header */}
+      <div className="flex items-center justify-between px-2 mb-1">
+        <span className="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest">Sessions</span>
+        <button
+          onClick={onNewSession}
+          className="flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] text-zinc-500 hover:text-zinc-200 hover:bg-white/[0.06] transition-all cursor-pointer"
+        >
+          <Plus className="w-3 h-3" />
+          New
+        </button>
+      </div>
+
+      {roots.map((root) => {
+        const children = getAllDescendants(sessions, root.id);
+        const isExpanded = expanded[root.id] ?? true;
+        const isRootActive = activeId === root.id;
+        const isEditing = editingId === root.id;
+
+        return (
+          <div key={root.id}>
+            {/* Root row */}
+            <div className="flex items-center gap-1 group">
+              {children.length > 0 ? (
+                <button
+                  onClick={() => toggle(root.id)}
+                  className="p-0.5 rounded text-zinc-700 hover:text-zinc-400 transition-colors cursor-pointer shrink-0"
+                >
+                  <ChevronRight
+                    className={`w-3.5 h-3.5 transition-transform duration-200 ${isExpanded ? "rotate-90" : ""}`}
+                  />
+                </button>
+              ) : (
+                <div className="w-5 shrink-0" />
+              )}
+
+              <div
+                onClick={() => !isEditing && onSelect(root.id)}
+                className={`flex-1 flex items-center gap-2 px-2 py-1.5 rounded-lg transition-all cursor-pointer group/row ${
+                  isRootActive
+                    ? "bg-white/[0.07] text-zinc-100"
+                    : "text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]"
+                }`}
+              >
+                <Layers className={`w-3 h-3 shrink-0 ${isRootActive ? "text-zinc-300" : "text-zinc-600"}`} />
+
+                {isEditing ? (
+                  <input
+                    ref={inputRef}
+                    value={editValue}
+                    onChange={(e) => setEditValue(e.target.value)}
+                    onBlur={commitEdit}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") { e.preventDefault(); commitEdit(); }
+                      if (e.key === "Escape") { e.preventDefault(); cancelEdit(); }
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex-1 bg-transparent text-xs font-semibold text-zinc-100 outline-none border-b border-violet-500/60 pb-px min-w-0"
+                  />
+                ) : (
+                  <>
+                    <span className="text-xs font-semibold truncate flex-1">{root.name}</span>
+                    {root.results.length > 0 && !isExpanded && (
+                      <span className="text-[10px] text-zinc-600 tabular-nums">{root.results.length}</span>
+                    )}
+                    <button
+                      onClick={(e) => { e.stopPropagation(); startEdit(root.id, root.name); }}
+                      className="opacity-0 group-hover/row:opacity-100 p-0.5 rounded text-zinc-600 hover:text-zinc-300 transition-all cursor-pointer shrink-0"
+                      aria-label="Rename session"
+                    >
+                      <Pencil className="w-3 h-3" />
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Children */}
+            {isExpanded && children.length > 0 && (
+              <div className="flex flex-col gap-0.5 mt-0.5 ml-3 pl-2 border-l border-white/[0.05]">
+                {children.map((child) => (
+                  <ForkRow
+                    key={child.id}
+                    session={child}
+                    depth={1}
+                    isActive={activeId === child.id}
+                    isNew={child.id === newlyForkedId}
+                    onSelect={() => onSelect(child.id)}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
