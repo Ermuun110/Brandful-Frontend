@@ -113,7 +113,7 @@ export function ImageLightbox({ images, index, onClose, onNavigate }: ImageLight
               onClick={() => onNavigate(i)}
               className={`rounded-full transition-all duration-200 cursor-pointer ${
                 i === index
-                  ? "w-4 h-1.5 bg-violet-400"
+                  ? "w-4 h-1.5 bg-orange-400"
                   : "w-1.5 h-1.5 bg-white/20 hover:bg-white/40"
               }`}
               aria-label={`Go to image ${i + 1}`}

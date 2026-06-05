@@ -190,7 +190,7 @@ export function RefinePanel({
         </div>
         <button
           onClick={onFork}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 text-xs text-gray-500 hover:text-violet-600 hover:border-violet-300 hover:bg-violet-50 transition-all cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 text-xs text-gray-500 hover:text-orange-600 hover:border-orange-300 hover:bg-orange-50 transition-all cursor-pointer"
         >
           <GitBranch className="w-3.5 h-3.5" />
           Fork
@@ -287,7 +287,7 @@ export function RefinePanel({
               placeholder="Describe what to change…"
               rows={1}
               disabled={loading}
-              className="flex-1 resize-none rounded-xl px-4 py-3 text-base text-gray-800 placeholder:text-gray-400 bg-gray-50 border border-gray-200 focus:border-violet-400 focus:outline-none transition-colors leading-relaxed disabled:opacity-50"
+              className="flex-1 resize-none rounded-xl px-4 py-3 text-base text-gray-800 placeholder:text-gray-400 bg-gray-50 border border-gray-200 focus:border-orange-400 focus:outline-none transition-colors leading-relaxed disabled:opacity-50"
               style={{ minHeight: "44px", maxHeight: "120px" }}
             />
             <button

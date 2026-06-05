@@ -41,7 +41,7 @@ function ForkRow({
       onClick={onSelect}
       className={`w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-left transition-all cursor-pointer group ${isNew ? "tab-new" : ""} ${
         isActive
-          ? "bg-violet-500/[0.12] text-zinc-100"
+          ? "bg-orange-500/[0.12] text-zinc-100"
           : "text-zinc-500 hover:text-zinc-300 hover:bg-white/[0.04]"
       }`}
     >
@@ -51,8 +51,8 @@ function ForkRow({
             key={i}
             className={`w-3 h-3 shrink-0 ${
               isActive
-                ? depth >= 2 ? "text-violet-300" : "text-violet-400"
-                : "text-zinc-600 group-hover:text-violet-500"
+                ? depth >= 2 ? "text-orange-300" : "text-orange-400"
+                : "text-zinc-600 group-hover:text-orange-400"
             }`}
             style={i > 0 ? { marginLeft: "-6px" } : undefined}
           />
@@ -60,7 +60,7 @@ function ForkRow({
       </div>
       <span className="text-xs font-medium truncate flex-1">{session.name}</span>
       {childCount > 0 && (
-        <span className="ml-auto text-[10px] text-violet-400/60 shrink-0 tabular-nums">{childCount}</span>
+        <span className="ml-auto text-[10px] text-orange-400/60 shrink-0 tabular-nums">{childCount}</span>
       )}
     </button>
   );
@@ -157,28 +157,20 @@ export function SessionTree({ sessions, activeId, newlyForkedId, onSelect, onNew
         return (
           <div key={root.id}>
             {/* Root row */}
-            <div className="flex items-center gap-1 group">
-              {children.length > 0 ? (
-                <button
-                  onClick={() => toggle(root.id)}
-                  className="p-0.5 rounded text-zinc-700 hover:text-zinc-400 transition-colors cursor-pointer shrink-0"
-                >
-                  <ChevronRight
-                    className={`w-3.5 h-3.5 transition-transform duration-200 ${isExpanded ? "rotate-90" : ""}`}
-                  />
-                </button>
-              ) : (
-                <div className="w-5 shrink-0" />
-              )}
-
-              <div
-                onClick={() => !isEditing && onSelect(root.id)}
-                className={`flex-1 flex items-center gap-2 px-2 py-1.5 rounded-lg transition-all cursor-pointer group/row ${
+            <div
+              onClick={() => !isEditing && onSelect(root.id)}
+              className={`flex items-center gap-2 px-2 py-1.5 rounded-lg transition-all cursor-pointer group/row ${
                   isRootActive
                     ? "bg-white/[0.07] text-zinc-100"
                     : "text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]"
                 }`}
               >
+                {children.length > 0 && (
+                  <ChevronRight
+                    onClick={(e) => { e.stopPropagation(); toggle(root.id); }}
+                    className={`w-3 h-3 shrink-0 text-zinc-600 hover:text-zinc-400 transition-transform duration-200 cursor-pointer ${isExpanded ? "rotate-90" : ""}`}
+                  />
+                )}
                 <Layers className={`w-3 h-3 shrink-0 ${isRootActive ? "text-zinc-300" : "text-zinc-600"}`} />
 
                 {isEditing ? (
@@ -192,13 +184,13 @@ export function SessionTree({ sessions, activeId, newlyForkedId, onSelect, onNew
                       if (e.key === "Escape") { e.preventDefault(); cancelEdit(); }
                     }}
                     onClick={(e) => e.stopPropagation()}
-                    className="flex-1 bg-transparent text-xs font-semibold text-zinc-100 outline-none border-b border-violet-500/60 pb-px min-w-0"
+                    className="flex-1 bg-transparent text-xs font-semibold text-zinc-100 outline-none border-b border-orange-500/60 pb-px min-w-0"
                   />
                 ) : (
                   <>
                     <span className="text-xs font-semibold truncate flex-1">{root.name}</span>
                     {children.length > 0 && (
-                      <span className="text-[10px] text-violet-400/60 tabular-nums shrink-0">{children.length}</span>
+                      <span className="text-[10px] text-orange-400/60 tabular-nums shrink-0">{children.length}</span>
                     )}
                     <button
                       onClick={(e) => { e.stopPropagation(); startEdit(root.id, root.name); }}
@@ -209,7 +201,6 @@ export function SessionTree({ sessions, activeId, newlyForkedId, onSelect, onNew
                     </button>
                   </>
                 )}
-              </div>
             </div>
 
             {/* Children */}

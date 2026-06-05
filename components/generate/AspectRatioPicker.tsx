@@ -31,7 +31,7 @@ function RatioShape({ w, h, active }: { w: number; h: number; active: boolean })
       <div
         style={{ width, height }}
         className={`rounded-sm border transition-colors duration-150 ${
-          active ? "border-violet-500 bg-violet-500/25" : "border-zinc-600 bg-zinc-800"
+          active ? "border-orange-400 bg-orange-500/25" : "border-zinc-600 bg-white/[0.06]"
         }`}
       />
     </div>
@@ -61,8 +61,8 @@ export function AspectRatioPicker({ value, onChange, disabled }: AspectRatioPick
 
       <div className="flex flex-col rounded-xl border overflow-hidden transition-colors duration-200"
         style={{
-          borderColor: open ? "rgba(124,58,237,0.5)" : "rgba(255,255,255,0.08)",
-          boxShadow: open ? "0 0 0 1px rgba(124,58,237,0.2)" : "none",
+          borderColor: open ? "rgba(249,115,22,0.5)" : "rgba(255,255,255,0.08)",
+          boxShadow: open ? "0 0 0 1px rgba(249,115,22,0.15)" : "none",
         }}
       >
         {/* Trigger button */}
@@ -70,7 +70,7 @@ export function AspectRatioPicker({ value, onChange, disabled }: AspectRatioPick
           onClick={() => setOpen((p) => !p)}
           disabled={disabled}
           className={`w-full flex items-center justify-between gap-3 px-3.5 py-3 transition-colors duration-200 cursor-pointer disabled:opacity-40 ${
-            open ? "bg-zinc-900" : "bg-zinc-900/60 hover:bg-zinc-900"
+            open ? "bg-white/[0.06]" : "bg-white/[0.04] hover:bg-white/[0.06]"
           }`}
         >
           <div className="flex items-center gap-3">
@@ -94,7 +94,7 @@ export function AspectRatioPicker({ value, onChange, disabled }: AspectRatioPick
           }}
         >
           <div className="overflow-hidden">
-            <div className="border-t border-white/[0.06] bg-zinc-950">
+            <div className="border-t border-white/[0.06] bg-white/[0.03]">
               {OPTIONS.map((opt, i) => {
                 const active = opt.value === value;
                 return (
@@ -103,8 +103,8 @@ export function AspectRatioPicker({ value, onChange, disabled }: AspectRatioPick
                     onClick={() => handleSelect(opt)}
                     className={`w-full flex items-center gap-3 px-4 py-3 transition-colors duration-100 cursor-pointer text-left ${
                       active
-                        ? "bg-violet-600/12 text-zinc-100"
-                        : "text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200"
+                        ? "bg-orange-500/10 text-zinc-100"
+                        : "text-zinc-400 hover:bg-white/[0.04] hover:text-zinc-200"
                     } ${i !== 0 ? "border-t border-white/[0.05]" : ""}`}
                   >
                     <RatioShape w={opt.w} h={opt.h} active={active} />
@@ -119,7 +119,7 @@ export function AspectRatioPicker({ value, onChange, disabled }: AspectRatioPick
                         {opt.description}
                       </p>
                     </div>
-                    {active && <Check className="w-3.5 h-3.5 text-violet-400 shrink-0" />}
+                    {active && <Check className="w-3.5 h-3.5 text-orange-400 shrink-0" />}
                   </button>
                 );
               })}

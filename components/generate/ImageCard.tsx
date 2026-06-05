@@ -66,7 +66,7 @@ export function ImageCard({ image, index, aspectRatio, onRefine, onZoom }: Image
           <div className="absolute bottom-2 left-2 right-2 flex gap-1.5">
             <button
               onClick={(e) => { e.stopPropagation(); onRefine(image); }}
-              className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg bg-violet-600/90 hover:bg-violet-500 text-white text-[11px] font-medium transition-colors cursor-pointer"
+              className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg bg-orange-500/90 hover:bg-orange-400 text-white text-[11px] font-medium transition-colors cursor-pointer"
             >
               <MessageSquarePlus className="w-3 h-3" />
               Refine

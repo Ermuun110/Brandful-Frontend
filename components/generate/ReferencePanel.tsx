@@ -87,7 +87,7 @@ function LibraryLightbox({
             <button
               key={i}
               onClick={() => onNavigate(i)}
-              className={`rounded-full transition-all duration-200 cursor-pointer ${i === index ? "w-4 h-1.5 bg-violet-400" : "w-1.5 h-1.5 bg-white/20 hover:bg-white/40"
+              className={`rounded-full transition-all duration-200 cursor-pointer ${i === index ? "w-4 h-1.5 bg-orange-400" : "w-1.5 h-1.5 bg-white/20 hover:bg-white/40"
                 }`}
             />
           ))}
@@ -115,7 +115,7 @@ function LibraryCard({
   onPreview: () => void;
 }) {
   return (
-    <div className="flex flex-col rounded-xl overflow-hidden border border-white/[0.07] bg-zinc-900/80 hover:border-violet-500/30 transition-all duration-200 group">
+    <div className="flex flex-col rounded-xl overflow-hidden border border-white/[0.07] bg-white/[0.04] hover:border-orange-500/30 transition-all duration-200 group">
       {/* Thumbnail */}
       <div className="relative aspect-square overflow-hidden">
         <Image
@@ -148,7 +148,7 @@ function LibraryCard({
         <p className="text-xs font-medium text-zinc-300 leading-tight truncate">{image.name}</p>
         <button
           onClick={onSelect}
-          className="w-full py-1.5 rounded-lg text-[11px] font-semibold bg-violet-600/20 hover:bg-violet-600 text-violet-300 hover:text-white border border-violet-500/30 hover:border-transparent transition-all duration-150 cursor-pointer"
+          className="w-full py-1.5 rounded-lg text-[11px] font-semibold bg-orange-500/20 hover:bg-orange-500 text-orange-300 hover:text-white border border-orange-500/30 hover:border-transparent transition-all duration-150 cursor-pointer"
         >
           Select
         </button>
@@ -258,8 +258,8 @@ export function ReferencePanel({ items, libraryImages, onChange, disabled }: Ref
           onClick={() => setShowLibrary((p) => !p)}
           disabled={disabled || availableToAdd.length === 0}
           className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs border transition-all duration-150 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${showLibrary
-              ? "bg-violet-600/20 text-violet-300 border-violet-500/40"
-              : "text-zinc-400 border-white/[0.07] hover:border-violet-500/40 hover:text-violet-300 hover:bg-violet-500/8"
+              ? "bg-orange-500/20 text-orange-300 border-orange-500/40"
+              : "bg-white/[0.06] text-zinc-300 border-white/[0.08] hover:border-orange-500/40 hover:text-orange-300 hover:bg-orange-500/10"
             }`}
         >
           <ImagePlus className="w-3.5 h-3.5" />
@@ -297,10 +297,10 @@ export function ReferencePanel({ items, libraryImages, onChange, disabled }: Ref
 
       {/* Empty state */}
       {items.length === 0 && (
-        <div className="rounded-xl border border-dashed border-white/[0.08] py-8 flex flex-col items-center gap-2 text-center">
-          <ImagePlus className="w-6 h-6 text-zinc-700" />
-          <p className="text-xs text-zinc-600">No references selected</p>
-          <p className="text-[11px] text-zinc-700">System will use your brand&apos;s top-rated images</p>
+        <div className="rounded-xl border border-dashed border-white/[0.1] bg-white/[0.04] py-8 flex flex-col items-center gap-2 text-center">
+          <ImagePlus className="w-6 h-6 text-white/20" />
+          <p className="text-xs text-zinc-500">No references selected</p>
+          <p className="text-[11px] text-zinc-600">System will use your brand&apos;s top-rated images</p>
         </div>
       )}
 

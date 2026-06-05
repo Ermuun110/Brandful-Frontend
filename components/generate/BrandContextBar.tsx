@@ -13,7 +13,7 @@ const BRAND_ITEMS = [
     icon: BookOpen,
     label: "Confident & Clean",
     sub: "Tone of voice",
-    color: "text-violet-400",
+    color: "text-orange-400",
   },
   {
     icon: ShieldCheck,

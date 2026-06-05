@@ -38,7 +38,7 @@ function NavSidebar({ activeNav }: { activeNav: string }) {
     >
       {/* Logo */}
       <div className="mb-4 flex flex-col items-center gap-1">
-        <div className="w-9 h-9 rounded-xl bg-violet-500 flex items-center justify-center">
+        <div className="w-9 h-9 rounded-xl bg-orange-500 flex items-center justify-center">
           <Layers className="w-5 h-5 text-white" />
         </div>
       </div>
@@ -64,7 +64,7 @@ function NavSidebar({ activeNav }: { activeNav: string }) {
       </div>
 
       {/* User avatar */}
-      <div className="mt-auto w-9 h-9 rounded-full bg-violet-500 flex items-center justify-center">
+      <div className="mt-auto w-9 h-9 rounded-full bg-orange-500 flex items-center justify-center">
         <span className="text-sm font-bold text-white">A</span>
       </div>
     </nav>

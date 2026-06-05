@@ -13,7 +13,7 @@ interface ForkDialogProps {
 
 const CONFIG = {
   fork: {
-    icon: <GitBranch className="w-4 h-4 text-violet-400" />,
+    icon: <GitBranch className="w-4 h-4 text-orange-400" />,
     title: "Fork conversation",
     subtitle: "Explore a new direction in parallel",
     body: "Forking copies your current prompt, references, and results into a new session. Both branches evolve independently.",
@@ -67,7 +67,7 @@ export function ForkDialog({ open, onConfirm, onCancel, mode = "fork", defaultNa
         </button>
 
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-9 h-9 rounded-xl bg-violet-600/15 border border-violet-500/20 flex items-center justify-center">
+          <div className="w-9 h-9 rounded-xl bg-orange-500/15 border border-orange-400/20 flex items-center justify-center">
             {cfg.icon}
           </div>
           <div>
@@ -91,7 +91,7 @@ export function ForkDialog({ open, onConfirm, onCancel, mode = "fork", defaultNa
               if (e.key === "Escape") onCancel();
             }}
             placeholder={cfg.placeholder}
-            className="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-white/[0.07] text-sm text-zinc-200 placeholder:text-zinc-600 focus:border-violet-500/50 focus:outline-none transition-colors"
+            className="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-white/[0.07] text-sm text-zinc-200 placeholder:text-zinc-600 focus:border-orange-500/50 focus:outline-none transition-colors"
           />
         </div>
 
@@ -105,7 +105,7 @@ export function ForkDialog({ open, onConfirm, onCancel, mode = "fork", defaultNa
           <button
             onClick={handleConfirm}
             disabled={mode === "new" && !name.trim()}
-            className="flex-1 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 disabled:opacity-40 disabled:cursor-not-allowed text-xs font-medium text-white transition-all cursor-pointer"
+            className="flex-1 py-2 rounded-lg bg-orange-500 hover:bg-orange-400 disabled:opacity-40 disabled:cursor-not-allowed text-xs font-medium text-white transition-all cursor-pointer"
           >
             {cfg.confirm}
           </button>

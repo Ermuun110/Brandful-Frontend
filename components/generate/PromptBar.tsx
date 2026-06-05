@@ -63,7 +63,7 @@ export function PromptBar({ value, onChange, disabled }: PromptBarProps) {
       <div
         className={`relative rounded-xl transition-all duration-200 ${
           focused
-            ? "ring-1 ring-violet-400/60 shadow-[0_0_16px_rgba(124,58,237,0.15)]"
+            ? "ring-1 ring-orange-400/60 shadow-[0_0_16px_rgba(249,115,22,0.15)]"
             : "ring-1 ring-white/[0.1]"
         }`}
         style={{ background: "rgba(255,255,255,0.05)" }}
@@ -86,7 +86,7 @@ export function PromptBar({ value, onChange, disabled }: PromptBarProps) {
           <button
             onClick={handleAutoFill}
             disabled={disabled || filling}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-zinc-400 hover:text-violet-300 hover:bg-violet-500/10 border border-white/[0.06] hover:border-violet-500/30 transition-all duration-150 disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-zinc-400 hover:text-orange-300 hover:bg-orange-500/10 border border-white/[0.06] hover:border-orange-500/30 transition-all duration-150 disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
           >
             {filling ? (
               <Loader2 className="w-3.5 h-3.5 animate-spin" />
