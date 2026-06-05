@@ -58,7 +58,7 @@ export function ImageHistory({ sessions, activeSessionId, onSelect }: ImageHisto
               const isFromActive = entry.sessionId === activeSessionId;
               return (
                 <button
-                  key={entry.image.id}
+                  key={`${entry.sessionId}-${entry.image.id}`}
                   onClick={() => onSelect(entry.sessionId, entry.image)}
                   className={`w-full flex items-center gap-2.5 p-1.5 rounded-xl text-left transition-all cursor-pointer group ${
                     isFromActive

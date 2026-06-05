@@ -8,6 +8,7 @@ interface ForkDialogProps {
   onConfirm: (name: string) => void;
   onCancel: () => void;
   mode?: "fork" | "new";
+  defaultName?: string;
 }
 
 const CONFIG = {
@@ -33,22 +34,22 @@ const CONFIG = {
   },
 };
 
-export function ForkDialog({ open, onConfirm, onCancel, mode = "fork" }: ForkDialogProps) {
+export function ForkDialog({ open, onConfirm, onCancel, mode = "fork", defaultName = "" }: ForkDialogProps) {
   const [name, setName] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const cfg = CONFIG[mode];
 
   useEffect(() => {
     if (open) {
-      setName("");
+      setName(defaultName);
       setTimeout(() => inputRef.current?.focus(), 60);
     }
-  }, [open]);
+  }, [open, defaultName]);
 
   if (!open) return null;
 
   const handleConfirm = () => {
-    const val = name.trim() || cfg.fallback;
+    const val = name.trim() || defaultName || cfg.fallback;
     if (!val) return;
     onConfirm(val);
     setName("");

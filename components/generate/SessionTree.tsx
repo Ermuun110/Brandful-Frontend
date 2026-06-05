@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { ChevronRight, GitBranch, Plus, Layers, Pencil } from "lucide-react";
 import { SessionData } from "@/app/generate/types";
 
@@ -21,28 +21,19 @@ function getRoots(sessions: SessionData[]): SessionData[] {
   return sessions.filter((s) => s.parentSessionId === null);
 }
 
-function getAllDescendants(sessions: SessionData[], rootId: string): SessionData[] {
-  const result: SessionData[] = [];
-  const queue = getChildren(sessions, rootId);
-  while (queue.length) {
-    const next = queue.shift()!;
-    result.push(next);
-    queue.push(...getChildren(sessions, next.id));
-  }
-  return result;
-}
-
 function ForkRow({
   session,
   depth,
   isActive,
   isNew,
+  childCount,
   onSelect,
 }: {
   session: SessionData;
   depth: number;
   isActive: boolean;
   isNew: boolean;
+  childCount: number;
   onSelect: () => void;
 }) {
   return (
@@ -53,7 +44,6 @@ function ForkRow({
           ? "bg-violet-500/[0.12] text-zinc-100"
           : "text-zinc-500 hover:text-zinc-300 hover:bg-white/[0.04]"
       }`}
-      style={{ paddingLeft: `${8 + depth * 16}px` }}
     >
       <div className="flex items-center gap-1.5 shrink-0">
         {Array.from({ length: Math.min(depth, 2) }).map((_, i) => (
@@ -68,13 +58,46 @@ function ForkRow({
           />
         ))}
       </div>
-      <span className="text-xs font-medium truncate">{session.name}</span>
-      {session.results.length > 0 && (
-        <span className="ml-auto text-[10px] text-zinc-600 shrink-0 tabular-nums">
-          {session.results.length}
-        </span>
+      <span className="text-xs font-medium truncate flex-1">{session.name}</span>
+      {childCount > 0 && (
+        <span className="ml-auto text-[10px] text-violet-400/60 shrink-0 tabular-nums">{childCount}</span>
       )}
     </button>
+  );
+}
+
+function renderForkChildren(
+  sessions: SessionData[],
+  parentId: string,
+  depth: number,
+  activeId: string,
+  newlyForkedId: string | null,
+  onSelect: (id: string) => void,
+): React.ReactNode {
+  const children = getChildren(sessions, parentId);
+  if (!children.length) return null;
+
+  return (
+    <div className="relative ml-3 border-l border-white/[0.08] flex flex-col gap-0.5 pt-0.5 pb-0.5">
+      {children.map((child) => {
+        const childCount = getChildren(sessions, child.id).length;
+        return (
+          <div key={child.id} className="relative pl-3">
+            {/* horizontal connector */}
+            <div className="absolute left-0 top-[13px] w-3 h-px bg-white/[0.08]" />
+            <ForkRow
+              session={child}
+              depth={depth}
+              isActive={activeId === child.id}
+              isNew={child.id === newlyForkedId}
+              childCount={childCount}
+              onSelect={() => onSelect(child.id)}
+            />
+            {renderForkChildren(sessions, child.id, depth + 1, activeId, newlyForkedId, onSelect)}
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
@@ -126,7 +149,7 @@ export function SessionTree({ sessions, activeId, newlyForkedId, onSelect, onNew
       </div>
 
       {roots.map((root) => {
-        const children = getAllDescendants(sessions, root.id);
+        const children = getChildren(sessions, root.id);
         const isExpanded = expanded[root.id] ?? true;
         const isRootActive = activeId === root.id;
         const isEditing = editingId === root.id;
@@ -174,8 +197,8 @@ export function SessionTree({ sessions, activeId, newlyForkedId, onSelect, onNew
                 ) : (
                   <>
                     <span className="text-xs font-semibold truncate flex-1">{root.name}</span>
-                    {root.results.length > 0 && !isExpanded && (
-                      <span className="text-[10px] text-zinc-600 tabular-nums">{root.results.length}</span>
+                    {children.length > 0 && (
+                      <span className="text-[10px] text-violet-400/60 tabular-nums shrink-0">{children.length}</span>
                     )}
                     <button
                       onClick={(e) => { e.stopPropagation(); startEdit(root.id, root.name); }}
@@ -191,17 +214,8 @@ export function SessionTree({ sessions, activeId, newlyForkedId, onSelect, onNew
 
             {/* Children */}
             {isExpanded && children.length > 0 && (
-              <div className="flex flex-col gap-0.5 mt-0.5 ml-3 pl-2 border-l border-white/[0.05]">
-                {children.map((child) => (
-                  <ForkRow
-                    key={child.id}
-                    session={child}
-                    depth={1}
-                    isActive={activeId === child.id}
-                    isNew={child.id === newlyForkedId}
-                    onSelect={() => onSelect(child.id)}
-                  />
-                ))}
+              <div className="mt-0.5 ml-5">
+                {renderForkChildren(sessions, root.id, 1, activeId, newlyForkedId, onSelect)}
               </div>
             )}
           </div>

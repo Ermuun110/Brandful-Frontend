@@ -30,6 +30,7 @@ export default function GeneratePage() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [lightboxImages, setLightboxImages] = useState<GeneratedImage[]>([]);
   const [forkDialogOpen, setForkDialogOpen] = useState(false);
+  const [suggestedForkName, setSuggestedForkName] = useState("");
   const [newSessionDialogOpen, setNewSessionDialogOpen] = useState(false);
   const [newlyForkedId, setNewlyForkedId] = useState<string | null>(null);
 
@@ -252,7 +253,11 @@ export default function GeneratePage() {
               selectedImage={active.selectedImage}
               messages={active.messages}
               onSendMessage={handleSendMessage}
-              onFork={() => setForkDialogOpen(true)}
+              onFork={() => {
+                const siblingCount = sessions.filter((s) => s.parentSessionId === activeId).length;
+                setSuggestedForkName(`Fork ${siblingCount + 1}`);
+                setForkDialogOpen(true);
+              }}
               onClose={() => patchActive({ selectedImage: null })}
               onZoom={() => {
                 const idx = active.results.findIndex((r) => r.id === active.selectedImage?.id);
@@ -328,6 +333,7 @@ export default function GeneratePage() {
         open={forkDialogOpen}
         onConfirm={handleForkConfirm}
         onCancel={() => setForkDialogOpen(false)}
+        defaultName={suggestedForkName}
       />
       <ForkDialog
         mode="new"
