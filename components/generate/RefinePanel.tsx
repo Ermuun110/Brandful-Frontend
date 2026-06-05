@@ -38,13 +38,13 @@ function ScoreBlock({ image }: { image: GeneratedImage }) {
           <span className={`text-3xl font-bold tabular-nums leading-none ${colors.text}`}>
             {image.complianceScore}
           </span>
-          <span className="text-sm text-zinc-700 leading-none">/100</span>
+          <span className="text-sm text-gray-400 leading-none">/100</span>
         </div>
         <div className={`px-2.5 py-1 rounded-full text-[11px] font-medium border ${colors.bg} ${colors.text} ${colors.border}`}>
           {label}
         </div>
         <ChevronDown
-          className={`w-3.5 h-3.5 text-zinc-600 group-hover:text-zinc-400 transition-all duration-200 ${open ? "rotate-180" : ""}`}
+          className={`w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 transition-all duration-200 ${open ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -62,7 +62,7 @@ function ScoreBlock({ image }: { image: GeneratedImage }) {
             const c = getComplianceColor(val);
             return (
               <div key={key} className="flex items-center gap-1.5">
-                <span className="text-[11px] text-zinc-600">{key}</span>
+                <span className="text-[11px] text-gray-400">{key}</span>
                 <span className={`text-[11px] font-semibold tabular-nums ${c.text}`}>{val}</span>
               </div>
             );
@@ -76,14 +76,14 @@ function ScoreBlock({ image }: { image: GeneratedImage }) {
 export function RefinePanelSkeleton({ aspectRatio }: { aspectRatio: string }) {
   const aspectClass = ASPECT_RATIO_CLASS[aspectRatio] ?? "aspect-square";
   return (
-    <div className="flex flex-col h-full bg-[#09090b]">
+    <div className="flex flex-col h-full bg-white">
       {/* Header */}
-      <div className="shrink-0 flex items-center justify-between px-6 py-3 border-b border-white/[0.06] bg-[#0a0a0d]">
+      <div className="shrink-0 flex items-center justify-between px-6 py-3 border-b border-gray-200 bg-gray-50">
         <div className="flex items-center gap-3">
-          <div className="w-7 h-7 rounded-lg shimmer" />
-          <div className="w-20 h-3 rounded-full shimmer" />
+          <div className="w-7 h-7 rounded-lg bg-gray-200 animate-pulse" />
+          <div className="w-20 h-3 rounded-full bg-gray-200 animate-pulse" />
         </div>
-        <div className="w-16 h-7 rounded-lg shimmer" />
+        <div className="w-16 h-7 rounded-lg bg-gray-200 animate-pulse" />
       </div>
 
       {/* Content */}
@@ -91,35 +91,35 @@ export function RefinePanelSkeleton({ aspectRatio }: { aspectRatio: string }) {
         <div className="w-full max-w-[860px] mx-auto px-6 py-6 flex flex-col gap-1">
           {/* Image */}
           <div className="py-3">
-            <div className="rounded-xl overflow-hidden border border-white/[0.08]" style={{ maxWidth: 200 }}>
-              <div className={`w-full ${aspectClass} shimmer`} />
+            <div className="rounded-xl overflow-hidden border border-gray-200" style={{ maxWidth: 200 }}>
+              <div className={`w-full ${aspectClass} bg-gray-100 animate-pulse`} />
             </div>
             {/* Score */}
             <div className="mt-3 flex items-center gap-3">
-              <div className="w-12 h-8 rounded shimmer" />
-              <div className="w-24 h-6 rounded-full shimmer" />
+              <div className="w-12 h-8 rounded bg-gray-200 animate-pulse" />
+              <div className="w-24 h-6 rounded-full bg-gray-200 animate-pulse" />
             </div>
           </div>
 
           {/* AI message */}
           <div className="py-3 flex flex-col gap-2">
-            <div className="h-3.5 w-3/4 rounded-full shimmer" />
-            <div className="h-3.5 w-1/2 rounded-full shimmer" />
+            <div className="h-3.5 w-3/4 rounded-full bg-gray-200 animate-pulse" />
+            <div className="h-3.5 w-1/2 rounded-full bg-gray-200 animate-pulse" />
           </div>
 
           {/* Spinner */}
           <div className="flex items-center gap-2 py-2">
-            <Loader2 className="w-3.5 h-3.5 text-zinc-600 animate-spin" />
-            <span className="text-sm text-zinc-600">Generating…</span>
+            <Loader2 className="w-3.5 h-3.5 text-gray-400 animate-spin" />
+            <span className="text-sm text-gray-400">Generating…</span>
           </div>
         </div>
       </div>
 
       {/* Input */}
-      <div className="shrink-0 border-t border-white/[0.06] px-6 py-4">
+      <div className="shrink-0 border-t border-gray-200 px-6 py-4">
         <div className="max-w-[860px] mx-auto flex gap-3 items-end">
-          <div className="flex-1 h-11 rounded-xl shimmer" />
-          <div className="w-10 h-10 rounded-xl shimmer" />
+          <div className="flex-1 h-11 rounded-xl bg-gray-100 animate-pulse" />
+          <div className="w-10 h-10 rounded-xl bg-gray-200 animate-pulse" />
         </div>
       </div>
     </div>
@@ -175,22 +175,22 @@ export function RefinePanel({
   const aspectClass = ASPECT_RATIO_CLASS[selectedImage.aspectRatio] ?? "aspect-square";
 
   return (
-    <div className="flex flex-col h-full bg-[#09090b]">
+    <div className="flex flex-col h-full bg-white">
       {/* Header */}
-      <div className="shrink-0 flex items-center justify-between px-6 py-3 border-b border-white/[0.06] bg-[#0a0a0d]">
+      <div className="shrink-0 flex items-center justify-between px-6 py-3 border-b border-gray-200 bg-gray-50">
         <div className="flex items-center gap-3">
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-zinc-600 hover:text-zinc-300 hover:bg-white/5 transition-all cursor-pointer"
+            className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-all cursor-pointer"
             aria-label="Back to results"
           >
             <ArrowLeft className="w-4 h-4" />
           </button>
-          <p className="text-xs font-medium text-zinc-400">Refine image</p>
+          <p className="text-xs font-medium text-gray-500">Refine image</p>
         </div>
         <button
           onClick={onFork}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/[0.08] text-xs text-zinc-400 hover:text-violet-300 hover:border-violet-500/40 hover:bg-violet-500/[0.08] transition-all cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 text-xs text-gray-500 hover:text-violet-600 hover:border-violet-300 hover:bg-violet-50 transition-all cursor-pointer"
         >
           <GitBranch className="w-3.5 h-3.5" />
           Fork
@@ -204,7 +204,7 @@ export function RefinePanel({
           {/* AI image message — always left-aligned */}
           <div className="group py-3 w-full">
             <div
-              className="relative overflow-hidden rounded-xl border border-white/[0.08] cursor-pointer"
+              className="relative overflow-hidden rounded-xl border border-gray-200 cursor-pointer"
               style={{ maxWidth: 200 }}
               onClick={onZoom}
             >
@@ -230,18 +230,18 @@ export function RefinePanel({
             <div key={msg.id}>
               {msg.role === "assistant" ? (
                 <div className="group relative py-3 w-full">
-                  <p className="text-base leading-relaxed" style={{ color: "#d0d0d0" }}>
+                  <p className="text-base leading-relaxed text-gray-800">
                     {msg.content}
                   </p>
                   <div className="flex items-center gap-1 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => handleCopy(msg.content)}
-                      className="flex items-center gap-1 px-2 py-1 rounded-md text-[11px] text-zinc-600 hover:text-zinc-300 hover:bg-white/5 transition-all cursor-pointer"
+                      className="flex items-center gap-1 px-2 py-1 rounded-md text-[11px] text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-all cursor-pointer"
                     >
                       <Copy className="w-3 h-3" />
                       Copy
                     </button>
-                    <button className="flex items-center gap-1 px-2 py-1 rounded-md text-[11px] text-zinc-600 hover:text-zinc-300 hover:bg-white/5 transition-all cursor-pointer">
+                    <button className="flex items-center gap-1 px-2 py-1 rounded-md text-[11px] text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-all cursor-pointer">
                       <RotateCcw className="w-3 h-3" />
                       Retry
                     </button>
@@ -250,10 +250,10 @@ export function RefinePanel({
               ) : (
                 <div className="flex justify-end py-1.5">
                   <div
-                    className="text-base leading-relaxed px-4 py-2.5 text-zinc-200"
+                    className="text-base leading-relaxed px-4 py-2.5 text-white"
                     style={{
                       maxWidth: "70%",
-                      background: "rgba(255,255,255,0.08)",
+                      background: "#061535",
                       borderRadius: "18px 18px 4px 18px",
                     }}
                   >
@@ -267,8 +267,8 @@ export function RefinePanel({
           {loading && (
             <div className="py-3 w-full">
               <div className="flex items-center gap-2">
-                <Loader2 className="w-3.5 h-3.5 text-zinc-600 animate-spin" />
-                <span className="text-sm text-zinc-600">Generating…</span>
+                <Loader2 className="w-3.5 h-3.5 text-gray-400 animate-spin" />
+                <span className="text-sm text-gray-400">Generating…</span>
               </div>
             </div>
           )}
@@ -277,7 +277,7 @@ export function RefinePanel({
       </div>
 
       {/* Input */}
-      <div className="shrink-0 border-t border-white/[0.06] px-6 py-4">
+      <div className="shrink-0 border-t border-gray-200 px-6 py-4">
         <div className="max-w-[860px] mx-auto">
           <div className="flex gap-3 items-end">
             <textarea
@@ -287,19 +287,19 @@ export function RefinePanel({
               placeholder="Describe what to change…"
               rows={1}
               disabled={loading}
-              className="flex-1 resize-none rounded-xl px-4 py-3 text-base text-zinc-200 placeholder:text-zinc-600 bg-white/[0.04] border border-white/[0.08] focus:border-violet-500/40 focus:outline-none transition-colors leading-relaxed disabled:opacity-50"
+              className="flex-1 resize-none rounded-xl px-4 py-3 text-base text-gray-800 placeholder:text-gray-400 bg-gray-50 border border-gray-200 focus:border-violet-400 focus:outline-none transition-colors leading-relaxed disabled:opacity-50"
               style={{ minHeight: "44px", maxHeight: "120px" }}
             />
             <button
               onClick={handleSend}
               disabled={!input.trim() || loading}
-              className="shrink-0 w-10 h-10 rounded-xl bg-violet-600 hover:bg-violet-500 disabled:bg-zinc-800 disabled:text-zinc-600 text-white flex items-center justify-center transition-all cursor-pointer disabled:cursor-not-allowed"
+              className="shrink-0 w-10 h-10 rounded-xl bg-[#061535] hover:bg-[#0a2050] disabled:bg-gray-100 disabled:text-gray-400 text-white flex items-center justify-center transition-all cursor-pointer disabled:cursor-not-allowed"
               aria-label="Send"
             >
               <Send className="w-4 h-4" />
             </button>
           </div>
-          <p className="text-[11px] text-zinc-700 mt-2">Enter to send · Shift+Enter for new line</p>
+          <p className="text-[11px] text-gray-400 mt-2">Enter to send · Shift+Enter for new line</p>
         </div>
       </div>
     </div>

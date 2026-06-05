@@ -40,7 +40,7 @@ export function BrandContextBar() {
       </div>
 
       {/* Brand name */}
-      <div className="px-3 py-2.5 rounded-xl bg-zinc-900 border border-white/[0.06]">
+      <div className="px-3 py-2.5 rounded-xl bg-white/[0.06] border border-white/[0.06]">
         <p className="text-[11px] text-zinc-500 uppercase tracking-wider mb-0.5">Active brand</p>
         <p className="text-sm font-semibold text-zinc-100">Acme Corporation</p>
       </div>
@@ -50,7 +50,7 @@ export function BrandContextBar() {
         {BRAND_ITEMS.map((item) => (
           <div
             key={item.label}
-            className="flex flex-col gap-1.5 px-3 py-2.5 rounded-xl bg-zinc-900/70 border border-white/[0.05]"
+            className="flex flex-col gap-1.5 px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.05]"
           >
             <item.icon className={`w-3.5 h-3.5 ${item.color}`} />
             <div>

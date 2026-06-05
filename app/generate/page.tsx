@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useMemo } from "react";
 import { toast } from "sonner";
-import { Layers, Settings, Bell } from "lucide-react";
+import { Layers, LayoutDashboard, Wand2, History, BookOpen, Users, BarChart2, Settings2 } from "lucide-react";
 
 import { ChatMessage, GeneratedImage } from "@/lib/types";
 import { MOCK_GENERATED_IMAGES, MOCK_CHAT_MESSAGES, MOCK_REFERENCE_IMAGES } from "@/lib/mock-data";
@@ -19,6 +19,57 @@ import { ImageLightbox } from "@/components/generate/ImageLightbox";
 import { SessionTree } from "@/components/generate/SessionTree";
 import { ImageHistory } from "@/components/generate/ImageHistory";
 import { Separator } from "@/components/ui/separator";
+
+const NAV_ITEMS = [
+  { icon: LayoutDashboard, label: "Dashboard", id: "dashboard" },
+  { icon: Wand2, label: "Generate", id: "generate" },
+  { icon: History, label: "History", id: "history" },
+  { icon: BookOpen, label: "Brand Kit", id: "brand" },
+  { icon: Users, label: "Team", id: "team" },
+  { icon: BarChart2, label: "Usage", id: "usage" },
+  { icon: Settings2, label: "Settings", id: "settings" },
+];
+
+function NavSidebar({ activeNav }: { activeNav: string }) {
+  return (
+    <nav
+      className="w-[72px] shrink-0 flex flex-col items-center py-4 gap-1 border-r border-white/[0.08]"
+      style={{ background: "#061535" }}
+    >
+      {/* Logo */}
+      <div className="mb-4 flex flex-col items-center gap-1">
+        <div className="w-9 h-9 rounded-xl bg-violet-500 flex items-center justify-center">
+          <Layers className="w-5 h-5 text-white" />
+        </div>
+      </div>
+
+      {/* Nav items */}
+      <div className="flex flex-col items-center gap-0.5 w-full px-2">
+        {NAV_ITEMS.map(({ icon: Icon, label, id }) => {
+          const isActive = id === activeNav;
+          return (
+            <button
+              key={id}
+              className={`w-full flex flex-col items-center gap-1 py-2.5 px-1 rounded-xl transition-all cursor-pointer ${
+                isActive
+                  ? "bg-white/[0.12] text-white"
+                  : "text-white/40 hover:text-white/70 hover:bg-white/[0.06]"
+              }`}
+            >
+              <Icon className="w-4 h-4" />
+              <span className="text-[10px] font-medium leading-none">{label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* User avatar */}
+      <div className="mt-auto w-9 h-9 rounded-full bg-violet-500 flex items-center justify-center">
+        <span className="text-sm font-bold text-white">A</span>
+      </div>
+    </nav>
+  );
+}
 
 let mainCount = 1;
 
@@ -167,36 +218,15 @@ export default function GeneratePage() {
     : null;
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-[#09090b]">
-      {/* Header */}
-      <header className="shrink-0 flex items-center justify-between px-6 h-14 border-b border-white/[0.06] bg-[#0a0a0d]">
-        <div className="flex items-center gap-2.5">
-          <div className="w-6 h-6 rounded-md bg-violet-600 flex items-center justify-center">
-            <Layers className="w-3.5 h-3.5 text-white" />
-          </div>
-          <span className="text-sm font-semibold text-zinc-100 tracking-tight">Brandful</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <button className="p-1.5 rounded-md text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900 transition-colors cursor-pointer" aria-label="Notifications">
-            <Bell className="w-4 h-4" />
-          </button>
-          <button className="p-1.5 rounded-md text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900 transition-colors cursor-pointer" aria-label="Settings">
-            <Settings className="w-4 h-4" />
-          </button>
-          <div className="ml-1 w-7 h-7 rounded-full bg-violet-700 flex items-center justify-center">
-            <span className="text-[14px] font-bold text-white">A</span>
-          </div>
-        </div>
-      </header>
+    <div className="flex h-screen overflow-hidden bg-white">
+      {/* Nav sidebar */}
+      <NavSidebar activeNav="generate" />
 
-      {/* Body */}
-      <div className="flex flex-1 overflow-hidden">
-
-        {/* Left sidebar */}
-        <aside
-          className="w-[340px] shrink-0 flex flex-col border-r border-white/[0.06] overflow-y-auto"
-          style={{ background: "#0c0c0f" }}
-        >
+      {/* Generate controls sidebar */}
+      <aside
+        className="w-[320px] shrink-0 flex flex-col border-r border-white/[0.1] overflow-y-auto"
+        style={{ background: "#061535" }}
+      >
           <div className="flex flex-col gap-5 p-4 pb-8">
 
             {/* Session tree */}
@@ -240,7 +270,7 @@ export default function GeneratePage() {
                 disabled={!active.prompt.trim()}
               />
               {!active.prompt.trim() && !active.generating && (
-                <p className="text-xs text-zinc-700 text-center">Add a prompt to generate</p>
+                <p className="text-xs text-white/30 text-center">Add a prompt to generate</p>
               )}
             </div>
           </div>
@@ -272,12 +302,12 @@ export default function GeneratePage() {
             />
           ) : (
             <div className="flex-1 overflow-y-auto">
-              <div className="sticky top-0 z-10 flex items-end justify-between px-8 pt-7 pb-5 bg-[#09090b]">
+              <div className="sticky top-0 z-10 flex items-end justify-between px-8 pt-7 pb-5 bg-white">
                 <div>
-                  <h1 className="text-xl font-bold text-zinc-100 tracking-tight leading-none">
+                  <h1 className="text-xl font-bold text-gray-900 tracking-tight leading-none">
                     {active.name}
                   </h1>
-                  <p className="text-sm text-zinc-500 mt-1.5">
+                  <p className="text-sm text-gray-500 mt-1.5">
                     {active.results.length > 0
                       ? `${active.results.length} images — scored against your brand guidelines`
                       : "Results appear here after generation"}
@@ -285,7 +315,7 @@ export default function GeneratePage() {
                 </div>
                 {avgScore !== null && (
                   <div className="flex items-baseline gap-1.5 pb-0.5">
-                    <span className="text-xs text-zinc-600">avg</span>
+                    <span className="text-xs text-gray-400">avg</span>
                     <span
                       className={`text-2xl font-bold tabular-nums ${
                         avgScore >= 85 ? "text-emerald-400" : avgScore >= 65 ? "text-amber-400" : "text-red-400"
@@ -293,7 +323,7 @@ export default function GeneratePage() {
                     >
                       {avgScore}
                     </span>
-                    <span className="text-xs text-zinc-600">/100</span>
+                    <span className="text-xs text-gray-400">/100</span>
                   </div>
                 )}
               </div>
@@ -319,7 +349,6 @@ export default function GeneratePage() {
           activeSessionId={activeId}
           onSelect={handleHistorySelect}
         />
-      </div>
 
       {/* Lightbox */}
       {lightboxIndex !== null && lightboxImages.length > 0 && (

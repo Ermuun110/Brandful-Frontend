@@ -63,10 +63,10 @@ export function PromptBar({ value, onChange, disabled }: PromptBarProps) {
       <div
         className={`relative rounded-xl transition-all duration-200 ${
           focused
-            ? "ring-1 ring-violet-500/50 shadow-[0_0_16px_rgba(124,58,237,0.1)]"
-            : "ring-1 ring-white/[0.07]"
+            ? "ring-1 ring-violet-400/60 shadow-[0_0_16px_rgba(124,58,237,0.15)]"
+            : "ring-1 ring-white/[0.1]"
         }`}
-        style={{ background: "rgba(255,255,255,0.025)" }}
+        style={{ background: "rgba(255,255,255,0.05)" }}
       >
         <textarea
           ref={textareaRef}
