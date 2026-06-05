@@ -12,7 +12,7 @@ import { ReferencePanel } from "@/components/generate/ReferencePanel";
 import { AspectRatioPicker } from "@/components/generate/AspectRatioPicker";
 import { GenerateButton } from "@/components/generate/GenerateButton";
 import { ResultsGrid } from "@/components/generate/ResultsGrid";
-import { RefinePanel } from "@/components/generate/RefinePanel";
+import { RefinePanel, RefinePanelSkeleton } from "@/components/generate/RefinePanel";
 import { ForkDialog } from "@/components/generate/ForkDialog";
 import { BrandContextBar } from "@/components/generate/BrandContextBar";
 import { ImageLightbox } from "@/components/generate/ImageLightbox";
@@ -248,7 +248,9 @@ export default function GeneratePage() {
 
         {/* Center */}
         <main className="flex-1 flex flex-col overflow-hidden">
-          {active.selectedImage && !active.generating ? (
+          {active.generating ? (
+            <RefinePanelSkeleton aspectRatio={active.aspectRatio} />
+          ) : active.selectedImage ? (
             <RefinePanel
               selectedImage={active.selectedImage}
               messages={active.messages}

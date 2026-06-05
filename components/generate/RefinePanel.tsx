@@ -73,6 +73,59 @@ function ScoreBlock({ image }: { image: GeneratedImage }) {
   );
 }
 
+export function RefinePanelSkeleton({ aspectRatio }: { aspectRatio: string }) {
+  const aspectClass = ASPECT_RATIO_CLASS[aspectRatio] ?? "aspect-square";
+  return (
+    <div className="flex flex-col h-full bg-[#09090b]">
+      {/* Header */}
+      <div className="shrink-0 flex items-center justify-between px-6 py-3 border-b border-white/[0.06] bg-[#0a0a0d]">
+        <div className="flex items-center gap-3">
+          <div className="w-7 h-7 rounded-lg shimmer" />
+          <div className="w-20 h-3 rounded-full shimmer" />
+        </div>
+        <div className="w-16 h-7 rounded-lg shimmer" />
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="w-full max-w-[860px] mx-auto px-6 py-6 flex flex-col gap-1">
+          {/* Image */}
+          <div className="py-3">
+            <div className="rounded-xl overflow-hidden border border-white/[0.08]" style={{ maxWidth: 200 }}>
+              <div className={`w-full ${aspectClass} shimmer`} />
+            </div>
+            {/* Score */}
+            <div className="mt-3 flex items-center gap-3">
+              <div className="w-12 h-8 rounded shimmer" />
+              <div className="w-24 h-6 rounded-full shimmer" />
+            </div>
+          </div>
+
+          {/* AI message */}
+          <div className="py-3 flex flex-col gap-2">
+            <div className="h-3.5 w-3/4 rounded-full shimmer" />
+            <div className="h-3.5 w-1/2 rounded-full shimmer" />
+          </div>
+
+          {/* Spinner */}
+          <div className="flex items-center gap-2 py-2">
+            <Loader2 className="w-3.5 h-3.5 text-zinc-600 animate-spin" />
+            <span className="text-sm text-zinc-600">Generating…</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Input */}
+      <div className="shrink-0 border-t border-white/[0.06] px-6 py-4">
+        <div className="max-w-[860px] mx-auto flex gap-3 items-end">
+          <div className="flex-1 h-11 rounded-xl shimmer" />
+          <div className="w-10 h-10 rounded-xl shimmer" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface RefinePanelProps {
   selectedImage: GeneratedImage | null;
   messages: ChatMessage[];
