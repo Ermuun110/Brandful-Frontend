@@ -53,7 +53,7 @@ export default function GeneratePage() {
     setSessions((prev) =>
       prev.map((s) =>
         s.id === activeId
-          ? { ...s, generating: false, results: MOCK_GENERATED_IMAGES.slice(0, 1), messages: MOCK_CHAT_MESSAGES }
+          ? { ...s, generating: false, results: MOCK_GENERATED_IMAGES.slice(0, 1), messages: MOCK_CHAT_MESSAGES, selectedImage: MOCK_GENERATED_IMAGES[0] }
           : s
       )
     );
